@@ -5,30 +5,22 @@
 #$ -j y
 #$ -S /bin/bash
 
-export PATH=/home/skgthab/Programs/bedtools2.22.1/bin:$PATH
-export PATH=/home/skgthab/Programs/samtools-0.1.19:$PATH
-export PATH=/home/skgthab/Programs/custom_scripts:$PATH
-export PATH=/home/skgthab/Programs:$PATH
-export PATH=/home/skgthab/Programs/HTSeq-0.6.1/build/scripts-2.7:$PATH
-export PATH=/home/skgthab/Programs/weblogo-3.3:$PATH
-export PATH=/home/skgthab/Programs/Homer-v4.5/bin:$PATH
-export PATH=/home/skgthab/Programs/weblogo.2.8.2:$PATH
-export PATH=/home/skgthab/Programs/BEDOPSv2.4.2:$PATH
-export PATH=/home/skgthab/Programs/fastx_toolkit_0.0.13:$PATH
-export PATH=/home/skgthab/Programs/cufflinks-2.2.0.Linux_x86_64:$PATH
-export PATH=/home/skgthab/Programs/ribopicker-standalone-0.4.3:$PATH
-export PATH=/home/skgthab/Programs/sratoolkit.2.5.0-1-ubuntu64/bin:$PATH
-export PATH=/home/skgthab/Programs/iCLIPro-0.1.1/scripts:$PATH
-export PATH=/home/skgthab/programs/RNAfold/usr/bin:$PATH
+export PATH=~/Programs/bedtools2.22.1/bin:$PATH
+export PATH=~/Programs/scripts:$PATH
+export PATH=~/Programs/RNAfold/usr/bin:$PATH
 
-cDNAs=$1	#complete cDNAs only
-path=/SAN/neuroscience/TE/Nejc/CLIPo-all/
-genome=/home/skgthab/bowtie-indexes/hg19/hg19.fa
+cDNAs=$1	
+path=`pwd -P`
+path=${path}/
+genome=hg19.fasta
 
 gunzip ${path}${cDNAs}.gz
 
+# separate cDNAs that are shorter than 40 nt
+python ./scripts/separate_cDNAs_40nt_length.py ${path}${data} ${path}${data}-40less.bed
+
 # get cDNA end
-python ${path}scripts/getEnd-BED.py ${path}${cDNAs} tmp.cDNA.end.bed
+python ${path}scripts/getEnd-BED.py ${path}${cDNAs}-40less.bed tmp.cDNA.end.bed
 
 # flank 30 nt in both directions
 python ${path}scripts/flankBEDpositionsCustom.py tmp.cDNA.end.bed tmp.cDNA.end.flanked30.bed 30 30 

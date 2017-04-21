@@ -5,31 +5,19 @@
 #$ -j y
 #$ -S /bin/bash
 
-export PATH=/home/skgthab/Programs/bedtools2.22.1/bin:$PATH
-export PATH=/home/skgthab/Programs/samtools-0.1.19:$PATH
-export PATH=/home/skgthab/Programs/custom_scripts:$PATH
-export PATH=/home/skgthab/Programs:$PATH
-export PATH=/home/skgthab/Programs/HTSeq-0.6.1/build/scripts-2.7:$PATH
-export PATH=/home/skgthab/Programs/weblogo-3.3:$PATH
-export PATH=/home/skgthab/Programs/Homer-v4.5/bin:$PATH
-export PATH=/home/skgthab/Programs/weblogo.2.8.2:$PATH
-export PATH=/home/skgthab/Programs/BEDOPSv2.4.2:$PATH
-export PATH=/home/skgthab/Programs/fastx_toolkit_0.0.13:$PATH
-export PATH=/home/skgthab/Programs/cufflinks-2.2.0.Linux_x86_64:$PATH
-export PATH=/home/skgthab/Programs/ribopicker-standalone-0.4.3:$PATH
-export PATH=/home/skgthab/Programs/sratoolkit.2.5.0-1-ubuntu64/bin:$PATH
-export PATH=/home/skgthab/Programs/iCLIPro-0.1.1/scripts:$PATH
+# set correct paths for the following tools
+export PATH=~/Programs/bedtools2.22.1/bin:$PATH
+export PATH=~/Programs/samtools-0.1.19:$PATH
+export PATH=~/Programs/scripts:$PATH
+export PATH=~/Programs/fastx_toolkit_0.0.13:$PATH
 
 data=$1
-#path=`pwd -P`
-path=/SAN/neuroscience/TE/Nejc/CLIPo-all/
-genome=/home/skgthab/bowtie-indexes/hg19/hg19.fa
+path=`pwd -P`
+path=${path}/
+genome=ucsc.hg19.fasta
 
-gunzip ${path}${data}.gz	#you should add complete cDNAs 
+gunzip ${path}${data}.gz
 
-################
-### CLIPo 40 ###
-################
 
 # get cDNAs shorter then 40 from complete ones
 python ${path}/scripts/separate_cDNAs_40nt_length.py ${path}${data} ${path}${data}-40less.bed
@@ -41,25 +29,24 @@ wc -l ${path}${data}-40less.bed >> ${path}${data}-02.CLIPo-kmer-constrains-REPOR
 gzip ${path}${data} 
 data=${data}-40less.bed
 
+### cDNAs with dominant start/end positions ###
 # get cDNAs that have dominant start, dominant end or equal
-#bash separate-cDNAs.sh ${path}${data}-40less.bed
-#echo "Dominant start cDNAs (<40) " >> ${path}${data}-02.CLIPo-REPORT.txt
-#wc -l ${path}${data}-40less.bed-cDNAstartScore.bed >> ${path}${data}-02.CLIPo-REPORT.txt
-#echo "Dominant end cDNAs (<40) " >> ${path}${data}-02.CLIPo-REPORT.txt
-#wc -l ${path}${data}-40less.bed-cDNAendScore.bed >> ${path}${data}-02.CLIPo-REPORT.txt
-#echo "Equal cDNAs (<40) " >> ${path}${data}-02.CLIPo-REPORT.txt
-#wc -l ${path}${data}-40less.bed-cDNAequalScore.bed >> ${path}${data}-02.CLIPo-REPORT.txt
+bash separate-cDNAs.sh ${path}${data}-40less.bed
+echo "Dominant start cDNAs (<40) " >> ${path}${data}-02.CLIPo-REPORT.txt
+wc -l ${path}${data}-40less.bed-cDNAstartScore.bed >> ${path}${data}-02.CLIPo-REPORT.txt
+echo "Dominant end cDNAs (<40) " >> ${path}${data}-02.CLIPo-REPORT.txt
+wc -l ${path}${data}-40less.bed-cDNAendScore.bed >> ${path}${data}-02.CLIPo-REPORT.txt
+echo "Equal cDNAs (<40) " >> ${path}${data}-02.CLIPo-REPORT.txt
+wc -l ${path}${data}-40less.bed-cDNAequalScore.bed >> ${path}${data}-02.CLIPo-REPORT.txt
 
-#gzip ${path}${data}-40less.bed-cDNAscore.bed
-#gzip ${path}${data}-40less.bed-cDNAstartScore.bed
-#gzip ${path}${data}-40less.bed-cDNAendScore.bed
-#gzip ${path}${data}-40less.bed-cDNAequalScore.bed
-#gzip ${path}${data}-40less.bed
+gzip ${path}${data}-40less.bed-cDNAscore.bed
+gzip ${path}${data}-40less.bed-cDNAstartScore.bed
+gzip ${path}${data}-40less.bed-cDNAendScore.bed
+gzip ${path}${data}-40less.bed-cDNAequalScore.bed
+gzip ${path}${data}-40less.bed
 
-###################################
+
 ### CLIPo kmers end constraints ###
-###################################
-
 # get start and end positions
 python ${path}scripts/getStartAndEnd-BED.py ${path}${data} ${path}${data}
 
@@ -86,8 +73,7 @@ python ${path}scripts/kmer-separation-counter.py ${path}${data}-End-flanked15-5.
 echo "D: cDNA end Contains; distribution od cDNA lenghts in 10 nt window" >> ${path}${data}-02.CLIPo-kmer-constrains-REPORT.txt
 python ${path}scripts/CLIPo_cDNA_length_distribution.py ${path}${data} >> ${path}${data}-02.CLIPo-kmer-constrains-REPORT.txt
 
-# 
-
+# clean up
 rm ${path}${data}-End-flanked2.fasta
 rm ${path}${data}-End-flanked2.bed
 rm ${path}${data}-End-flanked15-5.fasta

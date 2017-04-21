@@ -5,25 +5,16 @@
 #$ -j y
 #$ -S /bin/bash
 
-export PATH=/home/skgthab/Programs/bedtools2.22.1/bin:$PATH
-export PATH=/home/skgthab/Programs/samtools-0.1.19:$PATH
-export PATH=/home/skgthab/Programs/custom_scripts:$PATH
-export PATH=/home/skgthab/Programs:$PATH
-export PATH=/home/skgthab/Programs/HTSeq-0.6.1/build/scripts-2.7:$PATH
-export PATH=/home/skgthab/Programs/weblogo-3.3:$PATH
-export PATH=/home/skgthab/Programs/Homer-v4.5/bin:$PATH
-export PATH=/home/skgthab/Programs/weblogo.2.8.2:$PATH
-export PATH=/home/skgthab/Programs/BEDOPSv2.4.2:$PATH
-export PATH=/home/skgthab/Programs/fastx_toolkit_0.0.13:$PATH
-export PATH=/home/skgthab/Programs/cufflinks-2.2.0.Linux_x86_64:$PATH
-export PATH=/home/skgthab/Programs/ribopicker-standalone-0.4.3:$PATH
-export PATH=/home/skgthab/Programs/sratoolkit.2.5.0-1-ubuntu64/bin:$PATH
-export PATH=/home/skgthab/Programs/iCLIPro-0.1.1/scripts:$PATH
+# set correct paths for the following tools
+export PATH=~/Programs/bedtools2.22.1/bin:$PATH
+export PATH=~/Programs/samtools-0.1.19:$PATH
+export PATH=~/Programs/scripts:$PATH
+export PATH=~/Programs/fastx_toolkit_0.0.13:$PATH
 
 data=$1
 path=`pwd -P`
 path=${path}/
-genome=/media/skgthab/storage/UCL/genome-data/ucsc.hg19.fasta
+genome=ucsc.hg19.fasta
 
 gunzip ${path}${data}.gz
 
