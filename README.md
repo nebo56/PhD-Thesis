@@ -81,7 +81,7 @@ Enrichment of tetramer coverage between identified clusters and 300 nt control r
 I processed each mapped PTBP1 iCLIP, eCLIP and mock-eCLIP dataset with the iCount pipeline to define crosslink clusters with 3nt spanning window, 20 nt cluster merging and 0.05 FDR threshold. I only selected cDNAs that were inside of those clusters and then I selected position with the highest cDNA-start count for each cluster and defined it as a cDNA-start peak for further analysis. Next, I ranked all tetramers that were enriched in 20 nt flanking region around the maximum peaks. The enrichment of each tetramer was measured in comparison with the control frequency of tetramers from non-overlapping region of 200 to 300 nt downstream from cDNA-start peaks. I used the same peaks with the same surrounding region and controls to measure the enrichment of pairing probability using RNAfold software and a python script as described before. For the correlation between tetramer enrichments I used Pearson correlation. I calculated the individual upper and lower quartile of cDNA-start peaks for the most common tetramers and used them for further analysis. The same conditions were used for the pairing probability analysis.
 
 # All scripts
-Chapter 3
+Chapter 3: 
  - mapping_to_genome-PTBP1_and_U2AF65_iCLIP-pipeline.sh (PTBP1 and U2AF65 mapping pipeline to genome)
  - mapping_to_genome-PTBP1_and_U2AF65_CLIP-pipeline.sh (PTBP1 and U2AF65 mapping pipeline to genome)
  - mapping_to_transcriptome-eIFA3_iCLIP-pipeline.sh (eIFA3 mapping pipeline to transcriptome)
@@ -92,8 +92,7 @@ Chapter 3
  - get_cross-link_clusters.sh (get cross-link clusters from mapped cDNAs with iCount - peak calling function)
  - make_HeatMap.sh (PTBP1 motif heatmaps for grouped clusters)
 
-Chapter 4
-CLIPo
+Chapter 4: CLIPo
 - CLIPo.01.mapping_to_genome-CLIP.sh (mapping pipeline for CLIP data)
 - CLIPo.01.mapping_to_genome-iCLIP.sh (mapping pipeline for iCLIP data)
 - CLIPo.01.mapping_to_genome-eCLIP.sh (mapping pipeline for eCLIP data)
@@ -104,7 +103,7 @@ CLIPo
 - CLIPo.04-identify_crosslink_clusters-iCount.sh (pipeline for crosslink cluster identification with iCount peak calling tool)
 - CLIPo.05-clusters-specificity.sh (kmer and cDNA-start coverage across all crosslink clusters)
 
-RNA-maps
+Chapter 4: RNA-maps
 - get3SS.py (get exons 3' splice site)
 - get5SS.py (get exons 5' splice site)
 - flankBEDpositionsCustom.py (flank splice site positions)
@@ -114,6 +113,17 @@ RNA-maps
 - merge_3SS_5SS-coverage.py (merge 3' and 5' flanking splice sites)
 - draw_HeatMap.R (draw a final heatmap)
 - make_RNA-maps.sh (main script)
+
+Chapter 5: Branch Points
+- BEDsum.py (add count based on the number of overlapping cDNA-start positions)
+- BranchPoint-detection.sh (main script)
+- flankBEDpositions.py (flank splice site positions)
+- get_branch_point_candidates.py (filter cDNA sequences that ends with AG)
+- set_branch_point_position.py (set 1 nt position upstream from cDNA-start as branch point position)
+- swap_barcodes_to_header.py (move random barcode UMI from the iCLIP fasta sequence to its header)
+- transition_ratio.py (count a genomic transitions on first nucleotide from each read. Input file must be in SAM format)
+- trimSAM.py (trim cDNAs that contain a genomic A mutation at the first nucleotide in the SAM sequence file)
+
 
 # Common scripts
  - other scripts (kmer finder, flanking BED positions, density of deletions across all cDNAs, density of C to T transitions)
