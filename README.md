@@ -16,7 +16,7 @@ Only cDNAs that mapped to a unique genomic position were evaluated. These were s
 # Definition of crosslink-associated motifs
 We reasoned that sequence motifs enriched directly at the starts of the control eCLIP cDNAs might uncover preferences of UV crosslinking, since they are thought to represent a mixture of crosslink sites for many different RBPs, and thus they should not reflect sequence specificity of any specific RBP. We therefore examined occurrence of tetramers that overlapped with the nucleotide preceding the cDNA-starts in PTBP1 control iCLIP (position -1) in comparison with the ones overlapping with the 10th nucleotide preceding the cDNA-starts (position -10). Tetramers that are enriched over 1.5 fold at position -1 compared to -10 include. We excluded the TTTT tetramer from further analyses, since it is often part of longer tracts of Ts, and therefore its inclusion decreases the resolution of analysis. Thus, TTTG, TTTC, TTGG, TTTA, ATTG, ATTT, TCGT, TTGA, TTCT and CTTT were used for all analyses of crosslink-associated motifs.
 
-# Definition of PTBP-target motifs
+# Definition of PTBP-target motifs (see "Y-rich-pentamers.tab" RNA-maps folder)
 To identify the motifs bound by PTBP1, we searched for pentamers enriched in the region [-10..10] around the cDNA-start peaks identified in each crosslink cluster defined by PTBP1-iCLIP2.  69 pentamers had enrichment z-score > 299 and were used as PTBP1-target pentamers for further analyses. Their sequences are: TCTTT, CTTTC, TCTTC, CTTCT, TCTCT, CTCTC, TTTCT, TTCTC, TTCTT, TTTTC, TCCTT, CTCTT, ATTTC, TTCCT, CTTCC, TTTCC, CCTTT, CTTTT, CCTTC, TCTGT, TTCTG, TCCTC, CTTCA, ATCTT, TGTCT, TCTGC, CTCCT, CCTCT, GTCTT, TCTAT, TCTCC, ATTCC, TTCTA, CTTTG, TATCT, ACTTC, TTATC, CTTAT, CTATT, TTCAT, TTCCA, TCTTG, TTGTC, TTGCT, CTCTA, CTCTG, TATTT, TCCCT, TCATT, TTCCC, CATTT, ATTCT, TTTAC, GTTCT, CTATC, TCATC, CTTTA, TGTTC, TATTC, CATCT, TACTT, CTGTT, CTTGC, ACCTT, TTTCA, TTTGT, TGTTT, CTTGT, ACTTT. All of these pentamers are enriched in pyrimidines, in agreement with the known preference of PTBP1 for UC-rich binding motifs.
 
 # Normalisation of data for drawing of density graphs
@@ -80,7 +80,8 @@ Enrichment of tetramer coverage between identified clusters and 300 nt control r
 # Identification of cDNA-start peaks and tetramer enrichment
 I processed each mapped PTBP1 iCLIP, eCLIP and mock-eCLIP dataset with the iCount pipeline to define crosslink clusters with 3nt spanning window, 20 nt cluster merging and 0.05 FDR threshold. I only selected cDNAs that were inside of those clusters and then I selected position with the highest cDNA-start count for each cluster and defined it as a cDNA-start peak for further analysis. Next, I ranked all tetramers that were enriched in 20 nt flanking region around the maximum peaks. The enrichment of each tetramer was measured in comparison with the control frequency of tetramers from non-overlapping region of 200 to 300 nt downstream from cDNA-start peaks. I used the same peaks with the same surrounding region and controls to measure the enrichment of pairing probability using RNAfold software and a python script as described before. For the correlation between tetramer enrichments I used Pearson correlation. I calculated the individual upper and lower quartile of cDNA-start peaks for the most common tetramers and used them for further analysis. The same conditions were used for the pairing probability analysis.
 
-# Common scripts
+# All scripts
+Chapter 3
  - mapping_to_genome-PTBP1_and_U2AF65_iCLIP-pipeline.sh (PTBP1 and U2AF65 mapping pipeline to genome)
  - mapping_to_genome-PTBP1_and_U2AF65_CLIP-pipeline.sh (PTBP1 and U2AF65 mapping pipeline to genome)
  - mapping_to_transcriptome-eIFA3_iCLIP-pipeline.sh (eIFA3 mapping pipeline to transcriptome)
@@ -90,4 +91,29 @@ I processed each mapped PTBP1 iCLIP, eCLIP and mock-eCLIP dataset with the iCoun
  - main_get_cDNAstart-end_peaks.sh (eIFA3 selecting top 1000 transcripts and reporiting/drawing around cDNA start and cDNA end peaks)
  - get_cross-link_clusters.sh (get cross-link clusters from mapped cDNAs with iCount - peak calling function)
  - make_HeatMap.sh (PTBP1 motif heatmaps for grouped clusters)
+
+Chapter 4
+CLIPo
+- CLIPo.01.mapping_to_genome-CLIP.sh (mapping pipeline for CLIP data)
+- CLIPo.01.mapping_to_genome-iCLIP.sh (mapping pipeline for iCLIP data)
+- CLIPo.01.mapping_to_genome-eCLIP.sh (mapping pipeline for eCLIP data)
+- CLIPo.01.mapping_to_genome-irCLIP.sh (mapping pipeline for irCLIP data)
+- CLIPo.02-cDNA-end_constraints.sh (report fo cDNA-end constraints)
+- CLIPo.02-cDNA-end_structure_constraints.sh (report fo cDNA-end structure constraints)
+- CLIPo.03-kmer-constraints.sh (report fo cDNA-end/end kmer contraints)
+- CLIPo.04-identify_crosslink_clusters-iCount.sh (pipeline for crosslink cluster identification with iCount peak calling tool)
+- CLIPo.05-clusters-specificity.sh (kmer and cDNA-start coverage across all crosslink clusters)
+
+RNA-maps
+- get3SS.py (get exons 3' splice site)
+- get5SS.py (get exons 5' splice site)
+- flankBEDpositionsCustom.py (flank splice site positions)
+- get_coverage-3SS.py (get coverage of kmers and clusters around exons 3' splice sites)
+- get_coverage-5SS.py (get coverage of kmers and clusters around exons 5' splice sites)
+- get_flanked_cluster-positions.py (get positions of clusters from flanked splice sites)
+- merge_3SS_5SS-coverage.py (merge 3' and 5' flanking splice sites)
+- draw_HeatMap.R (draw a final heatmap)
+- make_RNA-maps.sh (main script)
+
+# Common scripts
  - other scripts (kmer finder, flanking BED positions, density of deletions across all cDNAs, density of C to T transitions)
