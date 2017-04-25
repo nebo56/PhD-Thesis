@@ -1,4 +1,4 @@
-# PhD thesis
+# PhD thesis: Insights into protein-RNA complexes from computational analyses of iCLIP experiments
 # Chapter 3: Assessing potential biases in protein-RNA binding site assignment with iCLIP
 
 # Trimming of adapter sequences
